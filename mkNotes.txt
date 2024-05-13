@@ -1,0 +1,17 @@
+
+
+
+3/22/24
+When on call with Katie she provided some files that I was able to insert into the emma_backend folder
+
+I used this command as stated in the docs which created some files. I think its the ad-hoc but I can't be sure
+
+    python emma_backend.py --interactions "interactions_0_2023-01-01_2023-04-01.xlsx" --events "events_0_2023-01-01_2023-07-01_noPHI.xlsx" --entries "entries_0_2023-01-01_2023-07-01_noPHI.xlsx" --debug 1 --research 1 --no_database 1 
+
+I then tried to runthe python .\sql_shell.py and was able to login to my local instance which I set up to be root root which is the same as it is stated in the documentation.
+
+
+3/29/24
+For some reason in create_db.py it uses sql_shell.py connect_to_db() which on my machine in particular it wouldn't set up the MYSQL cursor correctly, but when I ran sql_shell.py by itself it would be able to connect to my local MYSQL instance so the error was in the host parameter apparently. I had to change host from being none when create_db.py is ran to "localhost"
+line 62 of sql_shell.py:    -->       cxn = mysql.connector.connect(host="localhost",
+This allowed create_db.py to run without errors but there is no output that I can see

@@ -5,7 +5,7 @@
 
 # * Modules
 from dashboard import create_app, db
-from dashboard.Model.model import User
+#from dashboard.Model.model import User
 
 # ? VSCode Extensions Used:
 # ?     - Better Comments

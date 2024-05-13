@@ -59,7 +59,7 @@ def connect_to_db(database_name : str, host=None, user=None, password=None, crea
                             )
             else:
                 if(user is not None and password is not None):
-                    cxn = mysql.connector.connect(host=host,
+                    cxn = mysql.connector.connect(host="localhost",
                             user=user,
                             password=password,
                             )
