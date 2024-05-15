@@ -39,11 +39,6 @@ mono_crash.*
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-<<<<<<< HEAD
-=======
-[Rr]elease/
-[Rr]eleases/
->>>>>>> 29d3b5ec5b942c88304d21aa7ad747fc206e8277
 x64/
 x86/
 [Ww][Ii][Nn]32/

@@ -49,17 +49,16 @@ class VariableGraph:
         # *      -- CREATE PIE CHART --
         # * ==================================
         if self.type == 'pie':
-            
-
             if self.scope != 'weekly':
                 raise Exception("Daily scope for pie chart not possible.")
 
             for row_index in range(len(df)):
                 dataset = {}
-                dataset['title'] = "{}: Week {}, {}".format(self.title, int(df.iloc[row_index][0]), int(df.iloc[row_index][1]))
+                dataset['title'] = "{}: Week {}, {}".format(self.title, int(df.iloc[row_index, 0]), int(df.iloc[row_index, 1]))
                 
                 dataset['data'] = []
                 for index, column in enumerate(df_columns):
+                    if column in df.columns:
                         dataset['data'].append(df.iloc[row_index][column])
                 
                 dataset['labels'] = labels[:]
@@ -83,14 +82,14 @@ class VariableGraph:
             last_index = len(df) - 1
             for row_index in range(len(df)):
                 dataset = {}
-                dataset['title'] = "{}: Week {}, {}".format(self.title, int(df.iloc[row_index][0]), int(df.iloc[row_index][1]))
+                dataset['title'] = "{}: Week {}, {}".format(self.title, int(df.iloc[row_index, 0]), int(df.iloc[row_index, 1]))
 
                 if row_index == last_index:
                     dataset['title'] += ' (Latest)'
                 
-                
                 dataset['data'] = []
                 for index, column in enumerate(df_columns):
+                    if column in df.columns:
                         dataset['data'].append(round(df.iloc[row_index][column], 2))
                 
                 dataset['labels'] = labels[:]
@@ -105,17 +104,17 @@ class VariableGraph:
                     
             if self.scope == 'weekly':
                 for index, column in enumerate(df_columns):
-                    dataset = {}
-                    dataset['data'] = list(df[column])
-                    dataset['label'] = labels[index]
-                    dataset['border_color'] = border_color[index]
-                    self.datasets.append(dataset)
+                    if column in df.columns:
+                        dataset = {}
+                        dataset['data'] = list(df[column])
+                        dataset['label'] = labels[index]
+                        dataset['border_color'] = border_color[index]
+                        self.datasets.append(dataset)
                 self.x_labels = ["Week {}, {}".format(row[0], row[1]) for row in df[['week_number', 'year_number']].values.tolist()]
             
             else:
                 try:
                     #scope is daily
-                    
                     self.x_labels = []
                     count = 0
                     for index, daily_var in enumerate(df_columns):
@@ -130,16 +129,15 @@ class VariableGraph:
                         # append all daily entries in chronological order
                         for row_index in range(len(df)):
                             for column in daily_columns:
-                                dataset['data'].append(df.iloc[row_index][column])
+                                if column in df.columns:
+                                    dataset['data'].append(df.iloc[row_index][column])
                             
-                        
                             week, year = df.iloc[row_index][['week_number', 'year_number']]
                             
                             for day in range(1, 8):
                                 calender_date = date.fromisocalendar(int(year), int(week), day)
                                 self.x_labels.append(str(calender_date) + " 00:00:00")
                                 count += 1
-                                #print(calender_date, daily_columns[day-1], dataset['data'][-(8-day)])
                         self.datasets.append(dataset)
 
                 except Exception as e:

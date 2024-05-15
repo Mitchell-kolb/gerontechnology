@@ -137,7 +137,7 @@ def emma_backend(args):
     
     # * Add information to database if requested.
     if not no_database:
-        cxn_engine = connect_to_db("emma_backend", host=db_host, user=db_username, password=db_password, use_engine=True)
+        cxn_engine = connect_to_db("emma_backend", Globals.db_host, Globals.db_username, Globals.db_password, use_engine=True)
     else:
         cxn_engine = None
 
